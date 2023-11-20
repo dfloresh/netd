@@ -121,15 +121,15 @@ else
   cni_spec=${cni_spec//@cniCiliumPlugin/}
 fi
 
-## Look for file to know if plug-in should be enabled
-if [ -f /host/etc/config/cin_network_config ]; then
+## Look for optional env var to know if plug-in should be enabled
+if [[ -n "${ISTIO_CNI_CONFIG:-}" ]]; then
   ENABLE_ISTIO_PLUGIN=true
 fi
 
 # Add plug-in to config
 if [ "${ENABLE_ISTIO_PLUGIN}" == "true" ]; then
   echo "Adding Istio plug-in to the CNI config."
-  cni_spec=${cni_spec//@cniIstioPlugin/, ${CNI_NETWORK_CONFIG}}
+  cni_spec=${cni_spec//@cniIstioPlugin/, ${ISTIO_CNI_CONFIG}}
 else
   echo "Not using Istio plug-in."
   cni_spec=${cni_spec//@cniIstioPlugin/}
