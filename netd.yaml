@@ -193,6 +193,13 @@ spec:
               configMapKeyRef:
                 name: netd-config
                 key: enable_cilium_plugin
+          - name: ENABLE_ISTIO_PLUGIN
+            value: "false"
+          - name: CNI_NETWORK_CONFIG
+            valueFrom:
+              configMapKeyRef:
+                name: istio-cni-config
+                key: cni_network_config
           - name: KUBERNETES_SERVICE_HOST
             valueFrom:
               configMapKeyRef:
@@ -204,6 +211,8 @@ spec:
         - mountPath: /host/home/kubernetes/bin
           name: kubernetes-bin
           readOnly: true
+        - mountPath: /host/etc/config
+          name: cni-config-volume
       containers:
       - image: gcr.io/google-containers/netd:latest
         name: netd
@@ -258,3 +267,7 @@ spec:
         hostPath:
           path: /home/kubernetes/bin
           type: Directory
+      - name: cni-config-volume
+        configMap:
+          name: istio-cni-plugin-config
+          optional: true
