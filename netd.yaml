@@ -87,7 +87,7 @@ data:
           "capabilities": {
             "portMappings": true
           }
-        }@cniBandwidthPlugin@cniCiliumPlugin
+        }@cniBandwidthPlugin@cniCiliumPlugin@cniIstioPlugin
       ]
     }
   cni_spec_name: "10-gke-ptp.conflist"

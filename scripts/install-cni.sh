@@ -121,13 +121,8 @@ else
   cni_spec=${cni_spec//@cniCiliumPlugin/}
 fi
 
-## Look for optional env var to know if plug-in should be enabled
+# Add istio plug-in to spec if env var is not empty
 if [[ -n "${ISTIO_CNI_CONFIG:-}" ]]; then
-  ENABLE_ISTIO_PLUGIN=true
-fi
-
-# Add plug-in to config
-if [ "${ENABLE_ISTIO_PLUGIN}" == "true" ]; then
   echo "Adding Istio plug-in to the CNI config."
   cni_spec=${cni_spec//@cniIstioPlugin/, ${ISTIO_CNI_CONFIG}}
 else
@@ -276,7 +271,7 @@ if [ "${ENABLE_CILIUM_PLUGIN}" == "true" ]; then
 fi
 
 # Wait for istio plug-in if it is enabled
-if [ "${ENABLE_ISTIO_PLUGIN}" == "true" ]; then
+if [[ -n "${ISTIO_CNI_CONFIG:-}" ]]; then
  echo "Istio plug-in is in use. Holding CNI configurations until Istio is ready."
 
  # inotify calls back to the beginning of this script.
