@@ -193,8 +193,6 @@ spec:
               configMapKeyRef:
                 name: netd-config
                 key: enable_cilium_plugin
-          - name: ENABLE_ISTIO_PLUGIN
-            value: "false"
           - name: ISTIO_CNI_CONFIG
             valueFrom:
               configMapKeyRef:
